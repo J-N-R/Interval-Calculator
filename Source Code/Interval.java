@@ -3,21 +3,21 @@ package intervals;
 // Java Class Implementation of Intervals.
 //
 // Description:
-//		Allows for the creation of versatile interval objects that can be of many different types efficiently.
-//																																														  Example
-//		Each interval has a 'low' and 'high' boundary, and a potential 'pointer' to another interval.							 |
-//		For a standard interval, only the 'low' and 'high' fields are filled, with the pointer set to null.						 |      [2, 5]
-//		For an interval with a union, the 'pointer' will initialize a second interval, simulating an interval with a union.|	[2, 5] U [7, 10]
-//																																													 |
-//		Similarly for standard intervals with unions, a NEGATIVE interval will simply be an interval with a Union,	 |  (-INF, 5] U [7, INF)
-//		with its lowest boundary and highest boundaries having negative values.
+//	Allows for the creation of versatile interval objects that can be of many different types efficiently.
+//																    Examples
+//	Each interval has a 'low' and 'high' boundary, and a potential 'pointer' to another interval.			   |
+//	For a standard interval, only the 'low' and 'high' fields are filled, with the pointer set to null.		   |         [2, 5]
+//	For an interval with a union, the 'pointer' will initialize a second interval, simulating an interval with a union.|	 [2, 5] U [7, 10]
+//															   |
+//	Similarly for standard intervals with unions, a NEGATIVE interval will simply be an interval with a Union,	   |  (-INF, 5] U [7, INF)
+//	with its lowest boundary and highest boundaries having negative values.
 //
-//		Made By:
-//				Jonathan Rivera
-//				rivejona@kean.edu
+//	Made By:
+//		Jonathan Rivera
+//		rivejona@kean.edu
 //
-//		For:
-//				CAHSI's VREU Summer Research 2020
+//	For:
+//		CAHSI's VREU Summer Research 2020
 //
 
 public class Interval {
@@ -72,7 +72,7 @@ public class Interval {
   }
 	
 
-	public double getLow()	{	return low;		}
+	public double getLow()	{	return low;	}
 	public double getHigh()	{	return high;	}
 	public Interval getUnion() {	return union;	}
 	
@@ -80,36 +80,36 @@ public class Interval {
 	// OPERATIONS
 	public Interval add(Interval x) { 
 		
-																																// [a, b] + [c, d]
+		// [a, b] + [c, d]
 		if(union == null && !x.hasUnion())		return new Interval(low + x.getLow(), high + x.getHigh());
 		
-																																// [a, b]U[c,d] + [e, f]
-		if(union != null && !x.hasUnion())			return new Interval(low + x.getLow(), high + x.getHigh(), union.getLow() + x.getLow(), union.getHigh() + x.getHigh());
+		// [a, b]U[c,d] + [e, f]
+		if(union != null && !x.hasUnion())		return new Interval(low + x.getLow(), high + x.getHigh(), union.getLow() + x.getLow(), union.getHigh() + x.getHigh());
 		
-																																// [a, b] + [c, d]U[e, f]
-		if(union == null && x.hasUnion())			return new Interval(x.getLow() + low, x.getHigh() + high, x.getUnion().getLow() + low, x.getUnion().getHigh() + high);
+		// [a, b] + [c, d]U[e, f]
+		if(union == null && x.hasUnion())		return new Interval(x.getLow() + low, x.getHigh() + high, x.getUnion().getLow() + low, x.getUnion().getHigh() + high);
 		
-																																// [a, b]U[c,d] + [e, f]U[g, h]
+		// [a, b]U[c,d] + [e, f]U[g, h]
 		return new Interval(	low + x.getLow(), high + x.getHigh(), union.getLow() + x.getLow(), union.getHigh() + x.getHigh(),
-											low + x.getUnion().getLow(), high + x.getUnion().getHigh(), union.getLow() + x.getUnion().getLow(), union.getHigh() + x.getUnion().getHigh());
+					low + x.getUnion().getLow(), high + x.getUnion().getHigh(), union.getLow() + x.getUnion().getLow(), union.getHigh() + x.getUnion().getHigh());
 		
 	}
 	
 	
 	public Interval subtract(Interval x)	{
 
-																																// [a, b] - [c, d]
+		// [a, b] - [c, d]
 		if(union == null && !x.hasUnion())		return new Interval(low - x.getHigh(), high - x.getLow());
 
-																																// [a, b]U[c,d] - [e, f]
-		if(union != null && !x.hasUnion())			return new Interval(low - x.getHigh(), high - x.getLow(), union.getLow() - x.getHigh(), union.getHigh() - x.getLow());
+		// [a, b]U[c,d] - [e, f]
+		if(union != null && !x.hasUnion())		return new Interval(low - x.getHigh(), high - x.getLow(), union.getLow() - x.getHigh(), union.getHigh() - x.getLow());
 
-																																// [a, b] - [c, d]U[e, f]
-		if(union == null && x.hasUnion())			return new Interval(x.getLow() - high, x.getHigh() - low, x.getUnion().getLow() - high, x.getUnion().getHigh() - low);
+		// [a, b] - [c, d]U[e, f]
+		if(union == null && x.hasUnion())		return new Interval(x.getLow() - high, x.getHigh() - low, x.getUnion().getLow() - high, x.getUnion().getHigh() - low);
 
-																																// [a, b]U[c,d] - [e, f]U[g, h]
+		// [a, b]U[c,d] - [e, f]U[g, h]
 		return new Interval(	low - x.getHigh(), high - x.getLow(), union.getLow() - x.getHigh(), union.getHigh() - x.getLow(),
-										low - x.getUnion().getHigh(), high - x.getUnion().getLow(), union.getLow() - x.getUnion().getHigh(), union.getHigh() + x.getUnion().getLow());
+					low - x.getUnion().getHigh(), high - x.getUnion().getLow(), union.getLow() - x.getUnion().getHigh(), union.getHigh() + x.getUnion().getLow());
 	}
 	
 	
@@ -118,52 +118,52 @@ public class Interval {
 		double min  = Math.min(  Math.min( low * x.getLow(), low * x.getHigh()), Math.min( high * x.getLow(), high * x.getHigh()));
 		double max = Math.max( Math.max(low * x.getLow(), low * x.getHigh()), Math.max(high * x.getLow(), high * x.getHigh()));
 		
-																																// [a, b] * [c, d]
-		if(union == null && !x.hasUnion())			return new Interval(min, max);
+		// [a, b] * [c, d]
+		if(union == null && !x.hasUnion())	return new Interval(min, max);
 
-																																// [a, b]U[c,d] * [e, f]
-		if(union != null && !x.hasUnion())			return new Interval(min, max,
-																					Math.min(  Math.min( union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.min( union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
-																					Math.max( Math.max(union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.max(union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())));
+		// [a, b]U[c,d] * [e, f]
+		if(union != null && !x.hasUnion())	return new Interval(min, max,
+									    Math.min(  Math.min( union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.min( union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
+									    Math.max( Math.max(union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.max(union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())));
 
-																																// [a, b] * [c, d]U[e, f]
-		if(union == null && x.hasUnion())			return new Interval(min, max,
-																					Math.min(  Math.min( low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.min( high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
-																					Math.max( Math.max(low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.max(low  * x.getUnion().getLow(), low  * x.getUnion().getHigh())));
+		// [a, b] * [c, d]U[e, f]
+		if(union == null && x.hasUnion())	return new Interval(min, max,
+									    Math.min(  Math.min( low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.min( high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
+									    Math.max( Math.max(low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.max(low  * x.getUnion().getLow(), low  * x.getUnion().getHigh())));
 
-																																// [a, b]U[c,d] * [e, f]U[g, h]
-		return new Interval(min, max, // [a, b]U[c, d] * [e, f]
-										Math.min(  Math.min( union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.min( union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
-										Math.max( Math.max(union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.max(union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
+		// [a, b]U[c,d] * [e, f]U[g, h]
+		return new Interval(min, max,	// [a, b]U[c, d] * [e, f]
+					Math.min(  Math.min( union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.min( union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
+					Math.max( Math.max(union.getLow() * x.getLow(), union.getLow() * x.getHigh()), Math.max(union.getHigh() * x.getLow(), union.getHigh() * x.getHigh())),
 										
-														//[a, b]U[c, d] * [g, h]
-										Math.min(  Math.min(  low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.min( high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
-										Math.max(  Math.max(low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.max(high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
-										Math.min(  Math.min( union.getLow() * x.getUnion().getLow(), union.getUnion().getLow() * x.getUnion().getHigh()), Math.min( union.getHigh() * x.getUnion().getLow(), union.getHigh() * x.getUnion().getHigh())),
-										Math.max( Math.max(union.getLow() * x.getUnion().getLow(), union.getUnion().getLow() * x.getUnion().getHigh()), Math.max(union.getHigh() * x.getUnion().getLow(), union.getHigh() * x.getUnion().getHigh())));
+						//[a, b]U[c, d] * [g, h]
+					Math.min(  Math.min(  low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.min( high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
+					Math.max(  Math.max(low * x.getUnion().getLow(), low * x.getUnion().getHigh()), Math.max(high * x.getUnion().getLow(), high * x.getUnion().getHigh())),
+					Math.min(  Math.min( union.getLow() * x.getUnion().getLow(), union.getUnion().getLow() * x.getUnion().getHigh()), Math.min( union.getHigh() * x.getUnion().getLow(), union.getHigh() * x.getUnion().getHigh())),
+					Math.max( Math.max(union.getLow() * x.getUnion().getLow(), union.getUnion().getLow() * x.getUnion().getHigh()), Math.max(union.getHigh() * x.getUnion().getLow(), union.getHigh() * x.getUnion().getHigh())));
 	}
 	
 	
 	public Interval divide(Interval x) throws ArithmeticException {
 		
-																																// [a, b] / [c, d]
+		// [a, b] / [c, d]
 		if(union == null && !x.hasUnion())		return multiply(x.inverse());
 
-																																// [a, b]U[c,d] / [e, f]
-		if(union != null && !x.hasUnion())			return new Interval(multiply(x.inverse()), union.multiply(x.inverse()));
+		// [a, b]U[c,d] / [e, f]
+		if(union != null && !x.hasUnion())		return new Interval(multiply(x.inverse()), union.multiply(x.inverse()));
 
-																																// [a, b] / [c, d]U[e, f]
+		// [a, b] / [c, d]U[e, f]
 		Interval xNoUnion = new Interval(x.getLow(), x.getHigh());
 		Interval xUnion = new Interval(x.getUnion().getLow(), x.getUnion().getHigh());
 		
-		if(union == null && x.hasUnion())			return new Interval(multiply(xNoUnion.inverse()) , multiply(xUnion.inverse()));
+		if(union == null && x.hasUnion())		return new Interval(multiply(xNoUnion.inverse()) , multiply(xUnion.inverse()));
 
-																																// [a, b]U[c,d] / [e, f]U[g, h]
+		// [a, b]U[c,d] / [e, f]U[g, h]
 		return new Interval( new Interval(multiply(x.inverse()), union.multiply(x.inverse())), new Interval(multiply(x.getUnion().inverse()), union.multiply(x.getUnion().inverse())));
 	}
 	
 	
-	// Right now, doesn't account for Union, and I think that's okay
+	// Right now, doesn't account for Union. Should be fine for current use, might want to look into it for the future.
 	public Interval inverse() throws ArithmeticException {
 		if(low == 0 || high == 0) throw new ArithmeticException("Divide by Zero");
 		return low < 0 && high > 0 ? new Interval(Double.NEGATIVE_INFINITY, 1/low, 1/high, Double.POSITIVE_INFINITY) : new Interval(1/low, 1/high); 
@@ -182,27 +182,27 @@ public class Interval {
 						high	= temp;
 		}
 		
-		if(union == null) return; // Short circuit if the interval doesn't have a union. Everything else from here is union checks [a, b]U[c,d] 
+		if(union == null) return; // Kill method early for efficiency if the interval doesn't have a union. Everything else from here is union checks [a, b]U[c,d] 
 
 		
-		if(high >= union.getLow() && union.getHigh() > high && !union.hasUnion()) {					// High-U.Low Overlap 	[1, 2]U[2, 3] --> [1, 3]
+		if(high >= union.getLow() && union.getHigh() > high && !union.hasUnion()) {		// High-U.Low Overlap 	[1, 2]U[2, 3] --> [1, 3]
 			high = union.getHigh();
 			union = null;
 			return;
 		}
-		else if(high >= union.getLow() && union.getHigh() <= high && !union.hasUnion()) {		// U.Encapsulation		[1, 5]U[2, 4] --> [1, 5]
+		else if(high >= union.getLow() && union.getHigh() <= high && !union.hasUnion()) {	// U.Encapsulation	[1, 5]U[2, 4] --> [1, 5]
 			if(union.getLow() < low)
 				low = union.getLow();
 			union = null;
 			return;
 		}
 		
-		else if(low >= union.getLow() && high > union.getHigh() && !union.hasUnion()) {			// U.Low-Low Overlap	[50, 120]U[40, 80] --> [40, 120]
+		else if(low >= union.getLow() && high > union.getHigh() && !union.hasUnion()) {		// U.Low-Low Overlap	[50, 120]U[40, 80] --> [40, 120]
 			low = union.getLow();
 			union = null;
 			return;
 		}
-		else if(low > union.getLow() && union.getHigh() >= high && !union.hasUnion()) {			//  Encapsulation			[50, 120]U[40, 150] --> [40, 150]
+		else if(low > union.getLow() && union.getHigh() >= high && !union.hasUnion()) {		//  Encapsulation	[50, 120]U[40, 150] --> [40, 150]
 			low = union.getLow();
 			high = union.getHigh();
 			union = null;
@@ -225,12 +225,12 @@ public class Interval {
 			public int compare(double[] arg0, double[] arg1) {
 				return (int)(arg0[0] - arg1[0]);
 			} 
-        });
+        	});
 		
 		
 		// Deal with cases. Simplify and fix order problems wherever possible
-        for(i = 0; i < intervals.size()-1; i++)
-        	if(intervals.get(i)[0] == intervals.get(i+1)[0]) {			// [1,2] U [1, 3] || [1, 3] U [1, 2]  --> [1, 3]  Comparing first low to second low
+        	for(i = 0; i < intervals.size()-1; i++)
+        		if(intervals.get(i)[0] == intervals.get(i+1)[0]) {	// [1,2] U [1, 3] || [1, 3] U [1, 2]  --> [1, 3]  Comparing first low to second low
         		
         		if(intervals.get(i)[1] >= intervals.get(i+1)[1])	
         			intervals.set(i, new double[] {intervals.get(i)[0], intervals.get(i)[1]});
@@ -241,12 +241,12 @@ public class Interval {
         		i--;
         	}
         	
-        	else if(intervals.get(i)[1] >= intervals.get(i+1)[0]) {		// [1, 2] U [2, 3] --> [1, 3]						Comparing first high to second low
+        	else if(intervals.get(i)[1] >= intervals.get(i+1)[0]) {		// [1, 2] U [2, 3] --> [1, 3]	Comparing first high to second low
         		
         		if(intervals.get(i)[1] < intervals.get(i+1)[1])
-        			intervals.set(i, new double[] {intervals.get(i)[0], intervals.get(i+1)[1]});							// [1, 4] U [3, 5] --> [1, 5]
+        			intervals.set(i, new double[] {intervals.get(i)[0], intervals.get(i+1)[1]});         // [1, 4] U [3, 5] --> [1, 5]
         		
-        		intervals.remove(i+1);																											// Also deals with [1, 50] U [2, 30]  ( Encapsulation )
+        		intervals.remove(i+1);									     // Also deals with [1, 50] U [2, 30]  
         		i--;
         	}
         		
@@ -258,7 +258,7 @@ public class Interval {
         	default: System.out.println("Error. Check Equalize.");
         }
 		
-	}
+	} // end of equalize()
 	
 	public boolean hasUnion() {
 		return union == null ? false : true;
