@@ -1,3 +1,14 @@
+//
+//  INTERVAL CALCULATOR APP
+//  This project contains all the code necessary for the GUI that is powered by the Interval class definition.
+//  This project uses the Java SWT Library maintained by eclipse and is what creates the functional window and handles events such as button presses.
+//
+//  This project was created in Summer 2020 to assist my team in our Research, and proved to be a great aid.
+//  Created by:
+//	Jonathan Rivera
+//	rivejona@kean.edu
+//
+
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -210,7 +221,8 @@ public class App {
 		Union_Button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(first != null && first.hasUnion())		return;
+				
+				if(first != null && first.hasUnion())	return;
 				
 				try { first = new Interval(Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText())); } 
 				
@@ -231,7 +243,7 @@ public class App {
 		Second_Union_Button.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(second != null && second.hasUnion())		return;
+				if(second != null && second.hasUnion())	return;
 						
 				try { second = new Interval(Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText())); } 
 						
@@ -249,54 +261,57 @@ public class App {
 		});
 		
 		// NEGATIVE Button
-				Negative_Button.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						try { 	first = new Interval(Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText()));
-									first = first.negative();}
+		Negative_Button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try { 	
+					first = new Interval(Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText()));
+					first = first.negative();
+				}	
+				catch (Exception E) {
+					MessageDialog.openError(shell, "Error","Bad first interval");
+					return;
+				}	
 						
-						catch (Exception E) {
-							MessageDialog.openError(shell, "Error","Bad first interval");
-							return;
-						}	
+				Operation.setText("");
+				First_Interval_Label.setText(first.toString());
+				First_Interval_Label.setVisible(true);
 						
-						Operation.setText("");
-						First_Interval_Label.setText(first.toString());
-						First_Interval_Label.setVisible(true);
-						
-						// Hide Elements to try not to confuse user
-						lowT1.setVisible(false);
-						highT1.setVisible(false);
-						DECO1.setVisible(false);
-						DECO3.setVisible(false);
-						DECO5.setVisible(false);
-					}
-				});
+				// Hide Elements to try not to confuse user
+				lowT1.setVisible(false);
+				highT1.setVisible(false);
+				DECO1.setVisible(false);
+				DECO3.setVisible(false);
+				DECO5.setVisible(false);
+			}
+		});
 				
 		// SECOND NEGATIVE Button
-				Second_Negative_Button.addSelectionListener(new SelectionAdapter() {
-					@Override
-					public void widgetSelected(SelectionEvent e) {
-						try {	second = new Interval(Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()));
-								second = second.negative();}
+		Second_Negative_Button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {	
+					second = new Interval(Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()));
+					second = second.negative();
+				}
 				
-						catch (Exception E) {
-							MessageDialog.openError(shell, "Error","Bad second interval");
-							return;
-						}	
+				catch (Exception E) {
+					MessageDialog.openError(shell, "Error","Bad second interval");
+					return;
+				}	
 						
-						Operation.setText("");
-						Second_Interval_Label.setText(second.toString());
-						Second_Interval_Label.setVisible(true);
+				Operation.setText("");
+				Second_Interval_Label.setText(second.toString());
+				Second_Interval_Label.setVisible(true);
 				
-						// Hide Elements to try not to confuse user
-						lowT2.setVisible(false);
-						highT2.setVisible(false);
-						DECO2.setVisible(false);
-						DECO4.setVisible(false);
-						DECO6.setVisible(false);
-					}
-				});
+				// Hide Elements to try not to confuse user
+				lowT2.setVisible(false);
+				highT2.setVisible(false);
+				DECO2.setVisible(false);
+				DECO4.setVisible(false);
+				DECO6.setVisible(false);
+			}
+		});
 		
 		// ADD Button
 		Add_Button.addSelectionListener(new SelectionAdapter() {
@@ -332,7 +347,8 @@ public class App {
 				operator = '/';
 				try {
 					solve("divide");
-				} catch (ArithmeticException E) {
+				} 
+				catch (ArithmeticException E) {
 					Answer_Label.setText("N/A");
 					MessageDialog.openError(shell, "Error","Divide By Zero");
 					return;
@@ -346,13 +362,16 @@ public class App {
 		
 		// Initialize Intervals with text box text, create a union if interval already exists, completely skip if it exists and has a union
 	if(first == null || (first != null && !first.hasUnion()))
-		try { first = first == null	?	new Interval(Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText())) 
-												:	new Interval(first, Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText())); } 
+		try { 
+			first = first == null	? new Interval(Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText())) 
+						: new Interval(first, Double.parseDouble(lowT1.getText()), Double.parseDouble(highT1.getText())); 
+		} 
 		
 		catch (Exception E) {
 			MessageDialog.openError(shell, "Error","Bad first interval");
 			return;
 		}
+		
 	else {
 		lowT1.setVisible(true);
 		highT1.setVisible(true);
@@ -363,13 +382,16 @@ public class App {
 		
 		
 	if(second == null || (second != null && !second.hasUnion()))
-		try { second = second == null ?	new Interval(Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()))
-															:	new Interval(second, Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()));} 
+		try { 
+			second = second == null ? new Interval(Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()))
+					        : new Interval(second, Double.parseDouble(lowT2.getText()), Double.parseDouble(highT2.getText()));
+		} 
 		
 		catch (Exception E) {
 			MessageDialog.openError(shell, "Error","Bad second interval");
 			return;
 		}
+		
 	else {
 		lowT2.setVisible(true);
 		highT2.setVisible(true);
@@ -384,10 +406,10 @@ public class App {
 		
 		Interval answer = null;
 		switch(operation) {
-			case "add"			:	answer = first.add(second);			break;
+			case "add"	:	answer = first.add(second);		break;
 			case "subtract"	:	answer = first.subtract(second);	break;
 			case "multiply"	:	answer = first.multiply(second);	break;
-			case "divide"		:	answer = first.divide(second);		break;
+			case "divide"	:	answer = first.divide(second);		break;
 		}
 		
 		first = null;
